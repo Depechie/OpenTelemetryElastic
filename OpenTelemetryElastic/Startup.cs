@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using OpenTelemetryElastic.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,8 @@ namespace OpenTelemetryElastic
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OpenTelemetryElastic", Version = "v1" });
             });
+
+            services.AddScoped<APIMetricsService>();
 
             services.AddOpenTelemetryMetrics(builder =>
             {

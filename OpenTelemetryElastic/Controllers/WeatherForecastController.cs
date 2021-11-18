@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenTelemetryElastic.Services;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace OpenTelemetryElastic.Controllers
 {
@@ -18,20 +17,18 @@ namespace OpenTelemetryElastic.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly Meter _meter;
-        private readonly Counter<int> _requestCounter;
+        private readonly APIMetricsService _apiMetricsService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, APIMetricsService apiMetricsService)
         {
             _logger = logger;
-            _meter = new Meter("APIMetrics");
-            _requestCounter = _meter.CreateCounter<int>("RequestCounter");
+            _apiMetricsService = apiMetricsService;
         }
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            _requestCounter.Add(1);
+            _apiMetricsService.RequestCounter.Add(1);
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
