@@ -100,7 +100,7 @@ services:
   opentelemetry-collector:
     container_name: opentelemetry-collector
     hostname: opentelemetry-collector
-    image: otel/opentelemetry-collector:0.33.0
+    image: otel/opentelemetry-collector-contrib
     command: [ "--config=/etc/otel-collector-config.yml" ]
     volumes:
       - /var/lib/docker/volumes/otel-collector-config.yml:/etc/otel-collector-config.yml
