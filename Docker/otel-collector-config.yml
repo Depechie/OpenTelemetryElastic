@@ -1,0 +1,27 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:55680
+      http:
+        endpoint: "0.0.0.0:55690"
+        cors_allowed_headers:
+          - "*"
+        # cors_allowed_origins:
+        # - http://localhsot:5015
+        # - https://localhsot:5015
+
+exporters:
+  otlp/2:
+    endpoint: apm-server:8200
+    insecure: true
+  logging:
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [logging, otlp/2]
+    metrics:
+      receivers: [otlp]
+      exporters: [logging, otlp/2]
