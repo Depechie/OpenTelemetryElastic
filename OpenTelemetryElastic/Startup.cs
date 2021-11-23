@@ -37,7 +37,7 @@ namespace OpenTelemetryElastic
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OpenTelemetryElastic", Version = "v1" });
             });
 
-            services.AddScoped<APIMetricsService>();
+            services.AddSingleton<APIMetricsService>();
 
             services.AddOpenTelemetryMetrics(builder =>
             {
